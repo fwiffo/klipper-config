@@ -18,16 +18,14 @@ When I previously wanted to do a heat-soak to warm up the chamber before
 printing ABS, I would set the temperature, but would then forget to go back and
 start the actual print. I added some macros to manage heat soaks automatically.
 
-You can run `SET_HEAT_SOAK TIME=[time in seconds]` to request an heat soak at
-the start of the next print. The soak time will be shown on the printer display.
-I recommend putting options for this in the temperature pre-set menu in
-Mainsail/Fluidd (e.g. 5, 10, 20 minute soaks).
+You can run `SET_HEAT_SOAK TIME=[time in seconds] TEMP=[temperature]` to request
+a heat soak at the start of the next print. The soak time and/or temperature
+will be shown on the printer display. I recommend putting options for this in
+the temperature pre-set menu in Mainsail/Fluidd (e.g. 35° heat soak).
 
-The next time you start a print, a countdown will start after the bed has warmed
-up, allowing the chamber to come up to temperature before resuming the print.
-
-TODO: Add an automatic heat soak based on chamber temperature if a sensor is
-present.
+The next time you start a print, after the bed has warmed up, the print will
+wait the specified time or until the specified chamber temperature is reached
+(or both).
 
 ### Improved heater behavior
 
@@ -65,7 +63,37 @@ set the fan speed for the Nevermore air filter (if present). You can also set
 the speed in your filament custom gcode (e.g. `NEVERMORE SPEED=0.5`). The
 Nevermore turns off automatically 5 minutes after printing has completed.
 
-TODO: Add slicer and filament `PRINT_START` and `PRINT_END` config here.
+#### Slicer Start G-code
+
+```
+; Stop PrusaSlicer and SuperSlicer from injecting separate
+; temperature gcodes.
+M104 S0
+M140 S0
+
+PRINT_START TEMP=[first_layer_temperature] BED_TEMP=[first_layer_bed_temperature] FILAMENT={filament_type[0]}
+
+; Fiddle with these options if there are quality issues.
+; SET_VELOCITY_LIMIT VELOCITY=200
+; SET_VELOCITY_LIMIT ACCEL=8000 ACCEL_TO_DECEL=4000
+; SET_VELOCITY_LIMIT SQUARE_CORNER_VELOCITY=5
+```
+
+#### Slicer End G-code
+
+```
+PRINT_END
+```
+
+#### Filament Start G-code
+
+```
+; Pressure advance (needs to be tuned per filament)
+; SET_PRESSURE_ADVANCE ADVANCE=0.020
+
+; Uncomment to override the filament-type default
+; NEVERMORE SPEED=0.8
+```
 
 ### Other functionality
 
