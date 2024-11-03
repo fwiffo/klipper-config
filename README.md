@@ -75,7 +75,7 @@ PRINT_START TEMP=[first_layer_temperature] BED_TEMP=[first_layer_bed_temperature
 
 ; Fiddle with these options if there are quality issues.
 ; SET_VELOCITY_LIMIT VELOCITY=200
-; SET_VELOCITY_LIMIT ACCEL=8000 ACCEL_TO_DECEL=4000
+; SET_VELOCITY_LIMIT ACCEL=8000
 ; SET_VELOCITY_LIMIT SQUARE_CORNER_VELOCITY=5
 ```
 
