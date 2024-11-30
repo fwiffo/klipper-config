@@ -141,7 +141,7 @@ To make things work as expected, I've overriden `M204` to respect these limits.
   * Mini-afterburner appropriate filament load/unload macros
 
 ```
-PARK_USEFULLY [SPEED=6000]
+PARK [SPEED=6000]
 HOME_IF_NOT_HOMED [SPEED=6000]
 CENTER_PRINTHEAD
 SET_FAN_SPEED_IF_EXISTS FAN=fan_name SPEED=0.5
