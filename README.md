@@ -122,14 +122,15 @@ just set a default. Acceleration values produced by your slicer (`M204`) simply
 override them.
 
 This is inconsistent with other limits set in Klipper firmware (velocity, build
-volume, temperature, etc.) and contrary to their naming and the Klipper
-documentation. Generally, firmware limits are provided to protect the printer in
-the event of an inadvertant slicer misconfiguration, but since the acceleration
-settings are ignored, they serve no purpose.
+volume, temperature, etc.), contradicts their naming, and is inconsistent with
+the Klipper documentation. Generally, firmware limits are provided to protect
+the printer in the event of an inadvertant slicer misconfiguration, but since
+the acceleration settings are ignored, they serve no purpose.
 
 [This is apparently intended behavior](https://github.com/Klipper3d/klipper/blob/master/docs/Config_Changes.md) (20210430).
 
-To make things work as expected, I've overriden `M204` to respect these limits.
+To make things work as expected, I've overriden `M204` to respect acceleration
+limits.
 
 ## Misc. quality-of-life macros
 
@@ -138,15 +139,15 @@ To make things work as expected, I've overriden `M204` to respect these limits.
   * Smart printhead-centering macro
   * Macro to set fan speed only if it exists to make it easier to share macros
     across multiple printers
-  * Mini-afterburner appropriate filament load/unload macros
+  * Printer appropriate filament load/unload macros
 
 ```
+_HOME_IF_NOT_HOMED [SPEED=6000]
+_SET_FAN_SPEED_IF_EXISTS FAN=fan_name SPEED=0.5
 PARK [SPEED=6000]
-HOME_IF_NOT_HOMED [SPEED=6000]
-CENTER_PRINTHEAD
-SET_FAN_SPEED_IF_EXISTS FAN=fan_name SPEED=0.5
-LOAD_FILAMENT
-UNLOAD_FILAMENT
+CENTER
+FILAMENT_LOAD
+FILAMENT_UNLOAD
 ```
 
 ## Other things
